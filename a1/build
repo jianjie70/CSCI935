@@ -1,0 +1,1 @@
+g++ colorChain.cpp `pkg-config opencv --cflags --libs` -o colorChain.o
