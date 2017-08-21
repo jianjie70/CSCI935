@@ -1,0 +1,31 @@
+/**
+ * CSCI935 - Assignment 1
+ * Name:      Van Tam PHAN
+ * ID:        5322169
+ * Username:  vtp990 
+ */
+1. Implemention.
+The chain consists of 3 steps: Color Interpolation, Color Correction and Gamma Correction.
+
+Step 1: Color Interpolation
+	Implementation of bilinear color interpolation algorithm to produce an RGB image with the same width and height as the input raw image. Boundary conditions needed to be taken into account, as pixels around the image boundary may not have neighboring pixels on one or two sides.So my idea is add 1 pixel, which has value is 0, to each bother of 4 boundaries so that I can treat all pixels the same way when calculating R, G, B values at each pixels. After finishing color interpolation, I remove 1 pixel at each bounderies to get the image which has the same size to the input image. 
+	-> The output is already a colorful images. However, color seems to be quite dark.
+Step 2: Color Correction
+	Using the given color correction matrix to do a multiplication with the Mat achieved from color interpolation. And by declaring the stype of Mat is CV_8UC, the value is always in the range of 0 and 255.
+	-> The output is brighter, and color at some bock of pixels have changed. 
+
+Step 3: Gamma Correction
+	Create a gamma lookup table with the formula O=(I/255)^γ×255. O is output value, I is input pixel, y is gamma (0.5 in this case).
+	-> The output image looks brighter and the color of last block at bottom right corner is distinguishable.
+
+2. Comparing test3.bmp and test3.jpg
+With test3.bmp, the color of the color-corrected image is better than the gamma-corrected one. I can see the blue color of the sea and blue color of the sky make it look more distinguishable from the clouds. In gamma-corrected one, it is too bright that reduce the sharpness of color in the image. 
+
+The test3.jpg image could not load fully, and less details in term of color compared to bmp one. The possible reasons are: 
+	* Jpg is compressed image format while bmp is uncompressed image format.
+	* Instead of using red, green, and blue values as bmp, the values in jpg are black-white, red-green, and blue-yellow.
+
+3. Comparing “light01.jpg” and “light02.jpg”
+Different light sources have different different spectrums, hence, The color of an object will also different depends on the mix of light frequencies in the original source. 
+	* The image "light01.jpg" was taken under fluorescent bulb which there is much a much higher percentage of blue available in the specturm. Hence, the image looks in a cooler colors.
+	* The image "light02.jpg" was taken under an incandescent light bulb which has a high proportion of photons in the red and green range compared to the number in the blue range, so it looks yellowish itself. That's why the "light02.jpg" is warmer.
