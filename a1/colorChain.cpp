@@ -78,132 +78,144 @@ void ColorInterpolation(Mat src, Mat& dst){
   m = src.rows;
   n = src.cols;
   
+  cout << src.size().width << "x" << src.size().height<<endl;
+  cout<<n << "x " <<m << endl;
+
+  cout << int(src.at<uchar>(10, 10)) << endl;
+  cout << int(src.at<uchar>(m-300, n-100)) << endl;
+
+
   inRGB = src;
   //R channel for Green Pixel in horizontal
-  for(int j = 1; j <= m-1; j += 2) {
-    for(int i = 3; i <= n-1; i += 2) {
+  for(int j = 0; j <= m-2; j += 2) {
+    for(int i = 2; i <= n-2; i += 2) {
       outR.at<uchar>(j, i) = .5 * (inRGB.at<uchar>(j, i-1) + inRGB.at<uchar>(j, i+1));
     }
   }
   // R channel for Green Pixel in vertical 
-  for(int j = 2; j <= m-2; j += 2) {
-    for(int i = 2; i <= n; i += 2) {
+  for(int j = 1; j <= m-3; j += 2) {
+    for(int i = 1; i <= n-1; i += 2) {
       outR.at<uchar>(j, i) = .5 * (inRGB.at<uchar>(j-1, i) + inRGB.at<uchar>(j+1, i));
     }
     // R channel for Blue Pixel 
-    for(int i = 4; i <= n; i += 2) {
+    for(int i = 3; i <= n-1; i += 2) {
       outR.at<uchar>(j, i-1) = .25 * (inRGB.at<uchar>(j-1, i-2) + inRGB.at<uchar>(j-1, i) + inRGB.at<uchar>(j+1, i-2) + inRGB.at<uchar>(j+1, i));
     }
   }
 
   //Bounderies
   //R channel for Blue pixels at the left boundery 
-  for(int j = 2; j <= m-2; j += 2) {
-    outR.at<uchar>(j, 1) = 0.5 * (inRGB.at<uchar>(j-1, 2) + inRGB.at<uchar>(j+1, 2));
+  for(int j = 1; j <= m-3; j += 2) {
+    outR.at<uchar>(j, 0) = 0.5 * (inRGB.at<uchar>(j-1, 1) + inRGB.at<uchar>(j+1, 1));
   }
 
   //R channel for the bottom left B pixel of the left boundery
-  outR.at<uchar>(m, 1) = inRGB.at<uchar>(m-1, 2);
+  outR.at<uchar>(m-1, 0) = inRGB.at<uchar>(m-2, 1);
   
   //R channel for Blue pixels at the bottom boundery 
-  for(int i = 3; i <= n-2; i += 2) {
-    outR.at<uchar>(m, i) = 0.5 * (inRGB.at<uchar>(m-1, i-1) + inRGB.at<uchar>(m - 1, i+1));
+  for(int i = 2; i <= n-3; i += 2) {
+    outR.at<uchar>(m-1, i) = 0.5 * (inRGB.at<uchar>(m-2, i-1) + inRGB.at<uchar>(m - 2, i+1));
   }
 
   //R channel for Green pixels at the left boundery 
-  for(int j = 1; j <= m-2; j += 2) {
-    outR.at<uchar>(j, 1) = inRGB.at<uchar>(j, 2);
+  for(int j = 0; j <= m-3; j += 2) {
+    outR.at<uchar>(j, 0) = inRGB.at<uchar>(j, 1);
   }
 
   //R channel for Green pixels at the bottom boundery 
-  for(int i = 2; i <= n-2; i += 2) {
-    outR.at<uchar>(m, i) = inRGB.at<uchar>(m -1, i);
+  for(int i = 1; i <= n-3; i += 2) {
+    outR.at<uchar>(m-1, i) = inRGB.at<uchar>(m-2, i);
   }
 
+  cout << int(outR.at<uchar>(10, 10)) << endl;
+  cout << int(outR.at<uchar>(m-300, n-100)) << endl;
 
   namedWindow("outR", CV_WINDOW_AUTOSIZE);
   imshow("outR", outR);
 
   // B channel for Green pixel in horizontal
-  for(int j = 2; j <= m; j += 2) {
-    for(int i = 2; i <= n-2; i += 2) {
+  for(int j = 1; j <= m-1; j += 2) {
+    for(int i = 1; i <= n-3; i += 2) {
       outB.at<uchar>(j, i) = .5 * (inRGB.at<uchar>(j, i-1) + inRGB.at<uchar>(j, i+1));
     }
   }
 
   // B channel for Green Pixel in vertical  
-  for(int j = 3; j <= m-1; j += 2) {
-    for(int i = 1; i <= n-1; i += 2) {
+  for(int j = 2; j <= m-2; j += 2) {
+    for(int i = 0; i <= n-2; i += 2) {
       outB.at<uchar>(j, i) = .5 * (inRGB.at<uchar>(j-1, i) + inRGB.at<uchar>(j+1, i));
       
     }
     // B channel for Red Pixel 
-    for(int i = 3; i <= n-1; i += 2) {
+    for(int i = 2; i <= n-2; i += 2) {
       outB.at<uchar>(j, i-1) = .25 * (inRGB.at<uchar>(j-1, i-2) + inRGB.at<uchar>(j-1, i) + inRGB.at<uchar>(j+1, i-2) + inRGB.at<uchar>(j+1, i));
     }
   }
   
   //Bounderies
   //B channel for R pixels at the top boundery 
-  for(int i = 2; i <= n-2; i += 2) {
-    outB.at<uchar>(1, i) = 0.5 * (inRGB.at<uchar>(2, i-1) + inRGB.at<uchar>(2, i+1));
+  for(int i = 1; i <= n-3; i += 2) {
+    outB.at<uchar>(0, i) = 0.5 * (inRGB.at<uchar>(1, i-1) + inRGB.at<uchar>(1, i+1));
   }
   //B channel for the last R pixel of top right corner
-  outB.at<uchar>(1, n) = inRGB.at<uchar>(2, n-1);
+  outB.at<uchar>(0, n-1) = inRGB.at<uchar>(1, n-2);
 
   //B channel for R pixel of the right boundery
-  for(int j = 3; j <= m-2; j += 2) {
-    outB.at<uchar>(j, n) = 0.5 * (inRGB.at<uchar>(j-1, n-1) + inRGB.at<uchar>(j+1, n-1));
+  for(int j = 2; j <= m-3; j += 2) {
+    outB.at<uchar>(j, n-1) = 0.5 * (inRGB.at<uchar>(j-1, n-2) + inRGB.at<uchar>(j+1, n-2));
   }
 
   //B channel for G pixel of the top boundery
-  for(int i = 1; i <= n-2; i += 2) {
-    outB.at<uchar>(1, i) = inRGB.at<uchar>(2, i);
+  for(int i = 0; i <= n-3; i += 2) {
+    outB.at<uchar>(0, i) = inRGB.at<uchar>(1, i);
   }
   // B channel for G pixels of the right boundery
-  for(int j = 2; j <= m-2; j += 2) {
-    outB.at<uchar>(j, n) = inRGB.at<uchar>(j, n-1);
+  for(int j = 1; j <= m-3; j += 2) {
+    outB.at<uchar>(j, n-1) = inRGB.at<uchar>(j, n-2);
   }
+
+  cout << int(outB.at<uchar>(10, 10)) << endl;
+  cout << int(outB.at<uchar>(m-300, n-100)) << endl;
 
   namedWindow("outB", CV_WINDOW_AUTOSIZE);
   imshow("outB", outB);
 
   // G channel for R pixel
-  for(int j = 2; j <= m-2; j += 2) {
-    for(int i = 3; i <= n-1; i += 2) {
+  for(int j = 1; j <= m-3; j += 2) {
+    for(int i = 2; i <= n-2; i += 2) {
       outG.at<uchar>(j, i) = .25 * (inRGB.at<uchar>(j, i-1) + inRGB.at<uchar>(j, i+1) + inRGB.at<uchar>(j-1, i) + inRGB.at<uchar>(j+1, i));
     }
   }
   // G channel for Blue pixel
-  for(int j = 3; j <= m-1; j += 2) {
-    for(int i = 2; i <= n-2; i += 2) {
+  for(int j = 2; j <= m-2; j += 2) {
+    for(int i = 1; i <= n-3; i += 2) {
       outG.at<uchar>(j, i) = .25 * (inRGB.at<uchar>(j, i-1) + inRGB.at<uchar>(j, i+1) + inRGB.at<uchar>(j-1, i) + inRGB.at<uchar>(j+1, i+1));
     }
   }
 
   // Bounderies of G channel
   // G channel for R pixels on top
-  for(int i = 2; i <= n-2; i += 2) {
-    outG.at<uchar>(1, i) = (1/3) * (inRGB.at<uchar>(1, i-1) + inRGB.at<uchar>(3, i+1) + inRGB.at<uchar>(2, i));
+  for(int i = 1; i <= n-3; i += 2) {
+    outG.at<uchar>(0, i) = (1/3) * (inRGB.at<uchar>(0, i-1) + inRGB.at<uchar>(2, i+1) + inRGB.at<uchar>(1, i));
   }
   // G channel for the last R pixel of top right corner
-  outG.at<uchar>(1, n) = .5 * (inRGB.at<uchar>(1, n-1) + inRGB.at<uchar>(2, n));
+  outG.at<uchar>(0, n-1) = .5 * (inRGB.at<uchar>(0, n-2) + inRGB.at<uchar>(1, n-1));
   
   //G channel for R pixels of the right boundery
-  for(int j = 3; j <= m-1; j += 2) {
-    outG.at<uchar>(j, n) = (1/3) * (inRGB.at<uchar>(j-1, n) + inRGB.at<uchar>(j+1, n) + inRGB.at<uchar>(j, n-1));
+  for(int j = 2; j <= m-2; j += 2) {
+    outG.at<uchar>(j, n-1) = (1/3) * (inRGB.at<uchar>(j-1, n-1) + inRGB.at<uchar>(j+1, n-1) + inRGB.at<uchar>(j, n-2));
   }
 
   //G channel for B pixels of the left boundery
-  for(int j = 2; j <= m-2; j += 2) {
-    outG.at<uchar>(j, 1) = (1/3) * (inRGB.at<uchar>(j-1, 1) + inRGB.at<uchar>(j+1, 1) + inRGB.at<uchar>(j, 2));
+  for(int j = 1; j <= m-3; j += 2) {
+    outG.at<uchar>(j, 0) = (1/3) * (inRGB.at<uchar>(j-1, 0) + inRGB.at<uchar>(j+1, 0) + inRGB.at<uchar>(j, 1));
   }
   // G channel for the bottom left B pixel of the left boundery
-  outG.at<uchar>(m, 1) = .5 * (inRGB.at<uchar>(m-1, 1) + inRGB.at<uchar>(m, 2));
+  outG.at<uchar>(m-1, 0) = .5 * (inRGB.at<uchar>(m-2, 0) + inRGB.at<uchar>(m-1, 1));
   
   // G channel for B pixels of the bottom boundery
-  for(int i = 3; i <= n-1; i += 2) {
-    outG.at<uchar>(m, i) = (1/3) * (inRGB.at<uchar>(m, i-1) + inRGB.at<uchar>(m, i+1) + inRGB.at<uchar>(m-1, i));
+  for(int i = 2; i <= n-2; i += 2) {
+    outG.at<uchar>(m-1, i) = (1/3) * (inRGB.at<uchar>(m-1, i-1) + inRGB.at<uchar>(m-1, i+1) + inRGB.at<uchar>(m-2, i));
   }
 
   for(int i = 0; i < m; ++i) {
@@ -215,7 +227,9 @@ void ColorInterpolation(Mat src, Mat& dst){
   }
 
   namedWindow("outG", CV_WINDOW_AUTOSIZE);
-  imshow("outG", outG);  
+  imshow("outG", dst); 
+  cout << int(outG.at<uchar>(-1, -1)) << endl;
+  cout << int(dst.at<uchar>(m-300, n-100)) << endl; 
 }
 
 void ColorCorrection(Mat src, Mat& dst){
