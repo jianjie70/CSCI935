@@ -213,9 +213,7 @@ void ColorInterpolation(Mat src, Mat & dst) {
 void ColorCorrection(Mat src, Mat & dst) {
   int rows = src.rows;
   int cols = src.cols;
-  Mat correctionKernel =
-      (Mat_<float>(3, 3) << -0.18, -0.44, 1.62, -0.24, 1.29, -0.05, 1.18, -0.05, -0.13);
-
+  Mat correctionKernel = (Mat_<float>(3,3) << 1.18, -0.05, -0.13, -0.24, 1.29, -0.05, -0.18, -0.44, 1.62);
   cout << "color correction matrix: " << correctionKernel << endl;
   Mat tempImg;
   for (int i = 0; i < rows; ++i) {

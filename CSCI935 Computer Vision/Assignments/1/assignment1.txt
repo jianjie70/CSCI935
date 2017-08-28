@@ -1,0 +1,27 @@
+---------------------------------------
+Student's Name: Khai Quoc Le
+Student's Number: 5096182
+Student's Email: kql832@uowmail.edu.au
+---------------------------------------
+
+					ASSIGNMENT 1 REPORT
+				      	     --------
+
+1. Algorithms used in colour processing chain:
+   1.1 CFA Interpolation :
+	Bilinear Interpolation is implemented.
+   1.2 Colour Correction : 
+	To correct R,G,B of each pixel in the rgbImage array produced from previous processing step
+	(CFA Interpolation). An matrix which was optimised for the CMOS image sensor is multiplied by 
+	each element (a vector) in the rgbImage array and produced a new vector with corrected R,G,B.
+   1.3 Gamma Correction : 
+	A look-up table is built in the programme. The table maps 8-bit values to 8-bit values. 
+	The table entries are calculated using gamma = 0.5 and transfer function (((1/255)^gamma)*255.
+	R,G,B of each element in the rgbImage array from previous steps are corrected using the 
+	look-up table.
+2. Image quality
+   The output image quality is fairly good. However, it has blurring effect and some black areas are actually
+   not in black colour.
+3. Conclusion
+   The programme has been successfully implemented the colour processing chain with three steps CFAInterpolation, 
+   Colour Correction and Gamma Correction to convert a CFA image to true color RGB image.
